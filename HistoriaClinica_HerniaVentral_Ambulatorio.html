@@ -10,7 +10,7 @@
     body { margin: 0; background: #fafafa; color: #111; }
     header {
       position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid #eaeaea; padding: 12px 16px;
-      display: flex; align-items: center; gap: 12px; justify-content: space-between;
+      display: flex; align-items: center; gap: 12px; justify-content: space-between; flex-wrap: wrap;
     }
     h1 { font-size: 18px; margin: 0; }
     main { max-width: 980px; margin: 0 auto; padding: 16px; }
@@ -24,7 +24,7 @@
     textarea { min-height: 72px; resize: vertical; }
     .muted { color: #666; font-size: 12px; }
     .chip { display: inline-block; padding: 4px 8px; border: 1px solid #ddd; border-radius: 999px; font-size: 12px; margin-right: 6px; background: #f4f4f4; }
-    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     button { padding: 10px 14px; border-radius: 10px; border: 1px solid #111; background: #111; color: #fff; cursor: pointer; font-size: 14px; }
     button.secondary { background: #fff; color: #111; }
     .grid-compact input { padding: 8px; }
@@ -33,9 +33,11 @@
     .flex { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .divider { height: 1px; background: #eee; margin: 8px 0; }
     .right { text-align: right; }
+    .switch { display:flex; align-items:center; gap:6px; font-size:12px; }
+    .error { color:#b00020; font-size:12px; }
     @media print {
       header { position: static; }
-      button { display: none; }
+      button, .switch { display: none; }
       body { background: #fff; }
       section { break-inside: avoid; }
     }
@@ -45,7 +47,9 @@
   <header>
     <h1>Historia Clínica – Hernia Ventral Compleja (Ambulatorio)</h1>
     <div class="actions">
-      <button id="btn-resumen" onclick="generateSummary()">Ver resumen</button>
+      <button id="btn-resumen">Ver resumen</button>
+      <button id="btn-copiar" class="secondary">Copiar resumen</button>
+      <label class="switch"><input type="checkbox" id="auto" checked> Auto‑resumen</label>
       <button class="secondary" onclick="window.print()">Imprimir / PDF</button>
       <button class="secondary" id="btn-limpiar">Limpiar</button>
     </div>
@@ -56,25 +60,12 @@
     <section>
       <h2>1) Identificación y Motivo</h2>
       <div class="row grid-compact">
-        <div class="col-4">
-          <label>Nombre</label><input id="nombre" placeholder="Nombre y apellidos" />
-        </div>
-        <div class="col-2">
-          <label>Documento</label><input id="doc" placeholder="CC / ID" />
-        </div>
-        <div class="col-2">
-          <label>Edad</label><input id="edad" type="number" min="0" placeholder="años" />
-        </div>
-        <div class="col-2">
-          <label>Sexo</label>
-          <select id="sexo"><option value=""></option><option>F</option><option>M</option></select>
-        </div>
-        <div class="col-2">
-          <label>Fecha</label><input id="fecha" type="date" />
-        </div>
-        <div class="col-12">
-          <label>Motivo de consulta</label><input id="motivo" placeholder="Dolor, aumento de volumen, recidiva…" />
-        </div>
+        <div class="col-4"><label>Nombre</label><input id="nombre" placeholder="Nombre y apellidos" /></div>
+        <div class="col-2"><label>Documento</label><input id="doc" placeholder="CC / ID" /></div>
+        <div class="col-2"><label>Edad</label><input id="edad" type="number" min="0" placeholder="años" /></div>
+        <div class="col-2"><label>Sexo</label><select id="sexo"><option value=""></option><option>F</option><option>M</option></select></div>
+        <div class="col-2"><label>Fecha</label><input id="fecha" type="date" /></div>
+        <div class="col-12"><label>Motivo de consulta</label><input id="motivo" placeholder="Dolor, aumento de volumen, recidiva…" /></div>
       </div>
     </section>
 
@@ -99,12 +90,8 @@
     <section>
       <h2>3) Estado funcional</h2>
       <div class="row grid-compact">
-        <div class="col-3"><label>ECOG</label>
-          <select id="ecog"><option></option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
-        </div>
-        <div class="col-3"><label>METs estimados</label>
-          <select id="mets"><option></option><option>&lt;4</option><option>4–7</option><option>&gt;7</option></select>
-        </div>
+        <div class="col-3"><label>ECOG</label><select id="ecog"><option></option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+        <div class="col-3"><label>METs estimados</label><select id="mets"><option></option><option>&lt;4</option><option>4–7</option><option>&gt;7</option></select></div>
         <div class="col-6"><label>Limitaciones relevantes</label><input id="limitaciones" placeholder="Disnea, dolor, marcha, ortopnea…" /></div>
       </div>
       <div class="hint">Sugerencia rápida: ≥4 METs suele ser adecuado para cirugía electiva.</div>
@@ -119,19 +106,19 @@
             <label class="chip"><input type="radio" name="ecog_crit" value="3"> 3: &gt;50% del día postrado</label>
             <label class="chip"><input type="radio" name="ecog_crit" value="4"> 4: Totalmente postrado</label>
           </div>
-          <div class="hint">Seleccionar aquí rellenará el campo ECOG automáticamente (editable).</div>
+          <div class="hint">Al elegir, se rellena ECOG (puedes editar después).</div>
         </div>
         <div class="col-6">
-          <label><strong>Estimador de METs</strong> — Marca actividades que puede realizar el paciente:</label>
+          <label><strong>Estimador de METs</strong> — Marca actividades que puede realizar:</label>
           <div class="flex" style="align-items:flex-start">
-            <span class="chip"><input type="checkbox" class="mets_low"> Caminar dentro de casa / cuidados personales</span>
-            <span class="chip"><input type="checkbox" class="mets_low"> Tareas ligeras (lavar platos)</span>
-            <span class="chip"><input type="checkbox" class="mets_mod"> Subir un piso de escaleras</span>
-            <span class="chip"><input type="checkbox" class="mets_mod"> Caminar a 6–7 km/h</span>
+            <span class="chip"><input type="checkbox" class="mets_low"> Caminar en casa / autocuidado</span>
+            <span class="chip"><input type="checkbox" class="mets_low"> Tareas ligeras</span>
+            <span class="chip"><input type="checkbox" class="mets_mod"> Subir 1 piso de escaleras</span>
+            <span class="chip"><input type="checkbox" class="mets_mod"> Caminar 6–7 km/h</span>
             <span class="chip"><input type="checkbox" class="mets_high"> Trotar / correr suave</span>
-            <span class="chip"><input type="checkbox" class="mets_high"> Deportes intensos (ciclismo rápido, natación)</span>
+            <span class="chip"><input type="checkbox" class="mets_high"> Deportes intensos</span>
           </div>
-          <div class="hint">Se estimará: &lt;4 METs (bajo), 4–7 METs (moderado), &gt;7 METs (alto).</div>
+          <div class="hint">Se estimará: &lt;4, 4–7, &gt;7 METs.</div>
         </div>
       </div>
     </section>
@@ -220,7 +207,7 @@
             <span class="chip"><input type="checkbox" id="plan_btx" /> Requiere toxina botulínica preoperatoria</span>
             <span class="chip"><input type="checkbox" id="plan_npp" /> Requiere neumoperitoneo progresivo preoperatorio</span>
           </div>
-          <div class="hint">Seleccione si se planifica BTX (relajación parietal) y/o NPP (ganancia de volumen abdominal).</div>
+          <div class="hint">BTX: relajación parietal. NPP: ganancia de volumen abdominal.</div>
         </div>
         <div class="col-12"><label>Observaciones</label><textarea id="obs" placeholder="Liberación de componentes, TAR, drenajes, profilaxis, ERAS, etc."></textarea></div>
       </div>
@@ -253,61 +240,55 @@
     <!-- Resumen -->
     <section>
       <h2>Resumen generado</h2>
-      <div id="resumen" class="muted">Use “Ver resumen” para generar un texto listo para copiar al EHR.</div>
+      <div id="resumen" class="muted">Use “Ver resumen” (o active Auto‑resumen) para generar un texto listo para copiar al EHR.</div>
+      <div id="err" class="error"></div>
     </section>
 
     <div class="divider"></div>
-    <p class="muted right">v1.3 · Interactivo, con justificativos para asegurador y sugerencias TEV</p>
+    <p class="muted right">v1.4 · Interactivo, con justificativos para asegurador, sugerencias TEV y auto‑resumen</p>
   </main>
 
   <script>
     const $ = (id) => document.getElementById(id);
+    const on = (el, ev, fn) => el && el.addEventListener(ev, fn);
+    const debounce = (fn, d=300) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), d);} };
 
     // === Cálculos básicos ===
     function calcIMC() {
-      const p = parseFloat($('peso').value);
-      const t = parseFloat($('talla').value);
-      if (p > 0 && t > 0) $('imc').value = (p / (t*t)).toFixed(1);
-      else $('imc').value = '';
+      const pEl = $('peso'), tEl = $('talla'), imcEl = $('imc');
+      if (!pEl || !tEl || !imcEl) return;
+      const p = parseFloat(pEl.value), t = parseFloat(tEl.value);
+      imcEl.value = (p>0 && t>0) ? (p/(t*t)).toFixed(1) : '';
     }
-    $('peso').addEventListener('input', calcIMC);
-    $('talla').addEventListener('input', calcIMC);
-
     function calcW() {
-      const w = parseFloat($('ancho').value);
-      if (!isNaN(w)) {
-        if (w < 4) $('wclass').value = 'W1';
-        else if (w <= 10) $('wclass').value = 'W2';
-        else $('wclass').value = 'W3';
-      } else $('wclass').value = '';
+      const aEl = $('ancho'), wEl = $('wclass');
+      if (!aEl || !wEl) return;
+      const w = parseFloat(aEl.value);
+      if (isNaN(w)) { wEl.value=''; return; }
+      wEl.value = (w < 4) ? 'W1' : (w <= 10 ? 'W2' : 'W3');
     }
-    $('ancho').addEventListener('input', calcW);
 
-    // === Estado funcional asistido ===
-    document.querySelectorAll('input[name="ecog_crit"]').forEach(r => {
-      r.addEventListener('change', (e) => { $('ecog').value = e.target.value; });
-    });
+    // === Estimador METs
     function recalcMETsFromChecks() {
-      const anyHigh = Array.from(document.querySelectorAll('.mets_high')).some(c => c.checked);
-      const anyMod  = Array.from(document.querySelectorAll('.mets_mod')).some(c => c.checked);
-      const anyLow  = Array.from(document.querySelectorAll('.mets_low')).some(c => c.checked);
-      if (anyHigh) $('mets').value = '>7';
-      else if (anyMod) $('mets').value = '4–7';
-      else if (anyLow) $('mets').value = '<4';
-      else $('mets').value = '';
+      const any = cls => Array.from(document.querySelectorAll(cls)).some(c=>c.checked);
+      const mets = $('mets');
+      if (!mets) return;
+      if (any('.mets_high')) mets.value = '>7';
+      else if (any('.mets_mod')) mets.value = '4–7';
+      else if (any('.mets_low')) mets.value = '<4';
+      else mets.value = '';
     }
-    document.querySelectorAll('.mets_high, .mets_mod, .mets_low').forEach(c => c.addEventListener('change', recalcMETsFromChecks));
 
     // === Sugerencia TEV ===
     function sugTEV() {
-      const parts = [];
       const factors = [];
-      const edad = parseInt($('edad').value || '0', 10);
-      const imc = parseFloat($('imc').value);
-      const ecog = $('ecog').value ? parseInt($('ecog').value, 10) : null;
-      const tecnica = $('tecnica').value;
-      const ac = $('ac').value;
-      const asa = $('asa').value;
+      const edadEl=$('edad'), imcEl=$('imc'), ecogEl=$('ecog'), tecnicaEl=$('tecnica'), acEl=$('ac'), asaEl=$('asa');
+      const edad = edadEl? parseInt(edadEl.value||'0',10):0;
+      const imc = imcEl? parseFloat(imcEl.value):NaN;
+      const ecog = ecogEl && ecogEl.value!=='' ? parseInt(ecogEl.value,10) : null;
+      const tecnica = tecnicaEl? tecnicaEl.value: '';
+      const ac = acEl? acEl.value: '';
+      const asa = asaEl? asaEl.value: '';
 
       if (!isNaN(edad) && edad >= 60) factors.push('edad ≥60');
       if (!isNaN(imc) && imc >= 30) factors.push('IMC ≥30');
@@ -328,38 +309,38 @@
 
       const txt = `Sugerencia TEV: Riesgo ${nivel}. Factores: ${factors.join(', ') || 'sin factores mayores detectados'}. Recomendación: ${recomendacion}`;
       const box = $('tev_sug'); if (box) box.textContent = txt;
-      if (nivel) { const sel = $('tromb'); if (sel) sel.value = 'Estratificado y ordenado'; }
+      const sel = $('tromb'); if (sel && nivel) sel.value = 'Estratificado y ordenado';
       return txt;
     }
 
     // === Resumen + Justificación ===
     function resumenTexto() {
       const parts = [];
-      const nombre = $('nombre').value || 'Paciente';
-      const edad = $('edad').value ? (', ' + $('edad').value + ' años') : '';
-      const sexo = $('sexo').value ? (' (' + $('sexo').value + ')') : '';
-      const fecha = $('fecha').value ? (' – ' + $('fecha').value) : '';
+      const nombre = ($('nombre')?.value || 'Paciente');
+      const edad = $('edad')?.value ? (', ' + $('edad').value + ' años') : '';
+      const sexo = $('sexo')?.value ? (' (' + $('sexo').value + ')') : '';
+      const fecha = $('fecha')?.value ? (' – ' + $('fecha').value) : '';
       parts.push(`Consulta ambulatoria de ${nombre}${edad}${sexo}${fecha}.`);
 
-      if ($('motivo').value) parts.push(`Motivo: ${$('motivo').value}.`);
+      const motivo = $('motivo')?.value; if (motivo) parts.push(`Motivo: ${motivo}.`);
 
-      const imcTxt = $('imc').value ? ` IMC ${$('imc').value}` : '';
-      const asa = $('asa').value ? `, ASA ${$('asa').value}` : '';
-      const dm = $('dm').value ? `, DM: ${$('dm').value}` : '';
-      const tab = $('tabaco').value ? `, Tabaquismo: ${$('tabaco').value}` : '';
-      const ac = $('ac').value ? `, Anticoagulación: ${$('ac').value}` : '';
-      const isq = $('isq').value ? `, ISQ previa: ${$('isq').value}` : '';
-      const prev = $('previas').value ? `, Cirugías pared previas: ${$('previas').value}` : '';
-      const al = $('alergias').value ? `, Alergias: ${$('alergias').value}` : '';
-      if ($('peso').value || $('talla').value || $('asa').value || $('dm').value || $('tabaco').value || $('ac').value || $('isq').value || $('previas').value || $('alergias').value) {
+      const imcTxt = $('imc')?.value ? ` IMC ${$('imc').value}` : '';
+      const asa = $('asa')?.value ? `, ASA ${$('asa').value}` : '';
+      const dm = $('dm')?.value ? `, DM: ${$('dm').value}` : '';
+      const tab = $('tabaco')?.value ? `, Tabaquismo: ${$('tabaco').value}` : '';
+      const ac = $('ac')?.value ? `, Anticoagulación: ${$('ac').value}` : '';
+      const isq = $('isq')?.value ? `, ISQ previa: ${$('isq').value}` : '';
+      const prev = $('previas')?.value ? `, Cirugías pared previas: ${$('previas').value}` : '';
+      const al = $('alergias')?.value ? `, Alergias: ${$('alergias').value}` : '';
+      if ($('peso')?.value || $('talla')?.value || $('asa')?.value || $('dm')?.value || $('tabaco')?.value || $('ac')?.value || $('isq')?.value || $('previas')?.value || $('alergias')?.value) {
         parts.push(`Antecedentes clave:${imcTxt}${asa}${dm}${tab}${ac}${isq}${prev}${al}.`);
       }
 
       // EHS
-      const ehsLoc = $('ehs_loc').value;
-      const an = $('ancho').value, al2 = $('alto').value, wclass = $('wclass').value;
-      const tipo = $('tipo').value, recid = $('recidivas').value, red = $('reducible').value;
-      const piel = $('piel').value, cdc = $('cdc').value;
+      const ehsLoc = $('ehs_loc')?.value;
+      const an = $('ancho')?.value, al2 = $('alto')?.value, wclass = $('wclass')?.value;
+      const tipo = $('tipo')?.value, recid = $('recidivas')?.value, red = $('reducible')?.value;
+      const piel = $('piel')?.value, cdc = $('cdc')?.value;
       const ehs = [];
       if (ehsLoc) ehs.push(ehsLoc);
       if (an) ehs.push(`ancho ${an} cm`);
@@ -373,27 +354,27 @@
       if (ehs.length) parts.push(`Hernia ventral (EHS): ${ehs.join(', ')}.`);
 
       // Índices
-      const cedar = $('cedar').value, car = $('carolinas').value, vhwg = $('vhwg').value;
+      const cedar = $('cedar')?.value, car = $('carolinas')?.value, vhwg = $('vhwg')?.value;
       const idx = [];
       if (cedar) idx.push(`CeDAR ${cedar}`);
       if (car) idx.push(`Carolinas: ${car}`);
       if (vhwg) idx.push(`VHWG ${vhwg}`);
       const opt = [];
-      if ($('opt_imc').checked) opt.push('IMC optimizado');
-      if ($('opt_tabaco').checked) opt.push('cese tabaco');
-      if ($('opt_dm').checked) opt.push('control glucémico');
-      if ($('opt_alb').checked) opt.push('nutrición/albumina');
-      if ($('opt_botox').checked) opt.push('BTX/NPP valorado');
-      if ($('opt_abd').checked) opt.push('faja/FT');
+      if ($('opt_imc')?.checked) opt.push('IMC optimizado');
+      if ($('opt_tabaco')?.checked) opt.push('cese tabaco');
+      if ($('opt_dm')?.checked) opt.push('control glucémico');
+      if ($('opt_alb')?.checked) opt.push('nutrición/albumina');
+      if ($('opt_botox')?.checked) opt.push('BTX/NPP valorado');
+      if ($('opt_abd')?.checked) opt.push('faja/FT');
       if (idx.length || opt.length) parts.push(`Índices preoperatorios: ${idx.join(', ')}${opt.length ? '; Optimización: ' + opt.join(', ') : ''}.`);
 
       // Estudios
-      const img = $('img').value, hall = $('hallazgos').value;
+      const img = $('img')?.value, hall = $('hallazgos')?.value;
       if (img || hall) parts.push(`Estudios: ${img ? img + '; ' : ''}${hall ? hall : ''}.`);
 
       // Plan
-      const tec = $('tecnica').value, plano = $('plano').value, malla = $('malla').value, obs = $('obs').value;
-      const btx = $('plan_btx').checked, npp = $('plan_npp').checked;
+      const tec = $('tecnica')?.value, plano = $('plano')?.value, malla = $('malla')?.value, obs = $('obs')?.value;
+      const btx = $('plan_btx')?.checked, npp = $('plan_npp')?.checked;
       const plan = [];
       if (tec) plan.push(tec);
       if (plano) plan.push(plano);
@@ -403,7 +384,7 @@
       if (plan.length || obs) parts.push(`Plan: ${plan.join(', ')}${obs ? '. ' + obs : ''}.`);
 
       // Perioperatorio
-      const cons = $('consent').value, tromb = $('tromb').value, abx = $('abx').value, ctrl = $('control').value;
+      const cons = $('consent')?.value, tromb = $('tromb')?.value, abx = $('abx')?.value, ctrl = $('control')?.value;
       const peri = [];
       if (cons) peri.push(`consentimiento ${cons.toLowerCase()}`);
       if (tromb) peri.push(`profilaxis TEV ${tromb.toLowerCase()}`);
@@ -411,19 +392,17 @@
       if (ctrl) peri.push(`control: ${ctrl}`);
       if (peri.length) parts.push(`Perioperatorio: ${peri.join(', ')}.`);
 
-      // Justificación BTX/NPP + TEV (para asegurador)
+      // Justificación BTX/NPP + TEV
       const justParts = [];
       if (btx || npp) {
-        // Variables del caso
-        const imcVal = parseFloat($('imc').value);
-        const ecogVal = $('ecog').value ? parseInt($('ecog').value, 10) : null;
-        const cdcVal = $('cdc').value;
-        const wClass = $('wclass').value;
-        const hallTxt = ($('hallazgos').value || '').toLowerCase();
-        const ehsLocTxt = $('ehs_loc').value;
-        const anchoVal = $('ancho').value;
-        const altoVal  = $('alto').value;
-        const tipoHernia = $('tipo').value;
+        const imcVal = parseFloat($('imc')?.value);
+        const ecogVal = $('ecog')?.value ? parseInt($('ecog').value, 10) : null;
+        const cdcVal = $('cdc')?.value;
+        const wClass = $('wclass')?.value;
+        const hallTxt = ( $('hallazgos')?.value || '' ).toLowerCase();
+        const ehsLocTxt = $('ehs_loc')?.value;
+        const anchoVal = $('ancho')?.value;
+        const tipoHernia = $('tipo')?.value;
 
         const perdidaDominio = /p[eé]rdida\s+de\s+dominio/.test(hallTxt);
         const dias = /di[aá]stasis/.test(hallTxt);
@@ -445,53 +424,80 @@
 
         const criteriosCaso = factores.length ? ` Criterios del caso: ${factores.join(', ')}.` : '';
 
-        if (btx) {
-          justParts.push('• Toxina botulínica preoperatoria: indicada para relajación de musculatura lateral (oblicuos/transverso), incrementando la complacencia abdominal y facilitando cierre sin tensión en defectos amplios o con pérdida de dominio. Disminuye puentes y tensión sobre la malla, con potencial reducción de dehiscencia/ISQ.');
-        }
-        if (npp) {
-          justParts.push('• Neumoperitoneo progresivo (NPP): en pérdidas de dominio, permite expansión gradual de la cavidad abdominal y adaptación diafragmática; mejora la factibilidad del cierre y reduce riesgo de síndrome compartimental y complicaciones respiratorias.');
-        }
-        justParts.push('Estas medidas se incluyen en protocolos modernos de optimización preoperatoria en hernias ventrales complejas para mejorar la factibilidad del cierre, disminuir morbilidad y optimizar resultados funcionales.' + criteriosCaso);
+        if (btx) justParts.push('• Toxina botulínica preoperatoria: relajación de musculatura lateral, mayor complacencia abdominal y cierre sin tensión; posible reducción de dehiscencia/ISQ.');
+        if (npp) justParts.push('• Neumoperitoneo progresivo: expansión gradual de cavidad y adaptación diafragmática; mejora factibilidad de cierre y reduce complicaciones respiratorias.');
+        justParts.push('Medidas incluidas en protocolos modernos de optimización preoperatoria en hernias ventrales complejas.' + criteriosCaso);
 
-        // Añadir justificación TEV
         const tevSug = sugTEV();
         if (tevSug) justParts.push('Justificación riesgo TEV: ' + tevSug);
       }
       const justTxt = justParts.join(' ');
-      if (justTxt) $('justificacion').textContent = justTxt;
-      else $('justificacion').textContent = 'Sin terapias seleccionadas.';
+      const jEl = $('justificacion'); if (jEl) jEl.textContent = justTxt || 'Sin terapias seleccionadas.';
 
       return parts.join(' ');
     }
 
-    // Wrapper robusto para generar y copiar el resumen
     function generateSummary() {
       try {
         const txt = resumenTexto();
-        $('resumen').textContent = txt;
-        try { navigator.clipboard && navigator.clipboard.writeText(txt); } catch (e) {}
+        const r = $('resumen'); if (r) r.textContent = txt;
       } catch (err) {
-        const msg = 'Error al generar el resumen. Abre este archivo en un navegador (Safari/Chrome/Edge/Firefox) y no en un visor.';
-        const r = $('resumen');
-        if (r) r.textContent = msg + (err && err.message ? ' Detalle: ' + err.message : '');
+        const e = $('err'); if (e) e.textContent = 'Error al generar el resumen: ' + (err?.message || err);
       }
     }
-    window.addEventListener('DOMContentLoaded', () => {
-      const btn = $('btn-resumen');
-      if (btn && !btn._bound) { btn.addEventListener('click', generateSummary); btn._bound = true; }
-    });
 
-    // Limpiar
-    $('btn-limpiar').addEventListener('click', () => {
-      document.querySelectorAll('input, select, textarea').forEach(el => {
-        if (el.id === 'imc' || el.id === 'wclass') { el.value = ''; }
-        else if (el.type === 'checkbox' || el.type === 'radio') { el.checked = false; }
-        else { el.value = ''; }
+    async function copySummary() {
+      const r = $('resumen'); if (!r) return;
+      const txt = r.textContent || '';
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(txt);
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = txt; document.body.appendChild(ta);
+          ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        }
+      } catch (err) {
+        const e = $('err'); if (e) e.textContent = 'No se pudo copiar automáticamente. Copia manualmente el texto del resumen.';
+      }
+    }
+
+    function wire() {
+      on($('btn-resumen'), 'click', generateSummary);
+      on($('btn-copiar'), 'click', copySummary);
+      on($('btn-limpiar'), 'click', () => {
+        document.querySelectorAll('input, select, textarea').forEach(el => {
+          if (el.id === 'imc' || el.id === 'wclass') { el.value = ''; }
+          else if (el.type === 'checkbox' || el.type === 'radio') { el.checked = false; }
+          else { el.value = ''; }
+        });
+        const r = $('resumen'); if (r) r.textContent = 'Use “Ver resumen” (o active Auto‑resumen) para generar un texto listo para copiar al EHR.';
+        const t = $('tev_sug'); if (t) t.textContent = 'Sin sugerencias generadas. Use “Ver resumen”.';
+        const j = $('justificacion'); if (j) j.textContent = 'Sin terapias seleccionadas.';
+        const e = $('err'); if (e) e.textContent = '';
       });
-      $('resumen').textContent = 'Use “Ver resumen” para generar un texto listo para copiar al EHR.';
-      $('tev_sug').textContent = 'Sin sugerencias generadas. Use “Ver resumen”.';
-      $('justificacion').textContent = 'Sin terapias seleccionadas.';
-    });
+
+      // Cálculos
+      on($('peso'), 'input', calcIMC);
+      on($('talla'), 'input', calcIMC);
+      on($('ancho'), 'input', calcW);
+
+      // ECOG guiado
+      document.querySelectorAll('input[name="ecog_crit"]').forEach(r => on(r, 'change', (e)=>{ const el=$('ecog'); if (el) el.value=e.target.value; }));
+      // METs guiado
+      document.querySelectorAll('.mets_high, .mets_mod, .mets_low').forEach(c => on(c, 'change', recalcMETsFromChecks));
+
+      // Auto-resumen
+      const toggle = $('auto');
+      const autoHandler = debounce(()=>{ if (toggle && toggle.checked) generateSummary(); }, 200);
+      on(document, 'input', autoHandler);
+      on(document, 'change', autoHandler);
+
+      // Primer render
+      generateSummary();
+    }
+
+    window.addEventListener('DOMContentLoaded', wire);
   </script>
 </body>
 </html>

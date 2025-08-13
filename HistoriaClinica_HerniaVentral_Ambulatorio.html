@@ -6,52 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Historia Clínica – Hernia Ventral Compleja (Ambulatorio)</title>
   <style>
-    :root {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.4;
-    }
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; line-height: 1.4; }
     body { margin: 0; background: #fafafa; color: #111; }
     header {
-      position: sticky; top: 0; z-index: 10;
-      background: #fff; border-bottom: 1px solid #eaeaea; padding: 12px 16px;
+      position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid #eaeaea; padding: 12px 16px;
       display: flex; align-items: center; gap: 12px; justify-content: space-between;
     }
     h1 { font-size: 18px; margin: 0; }
     main { max-width: 980px; margin: 0 auto; padding: 16px; }
-    section {
-      background: #fff; border: 1px solid #eaeaea; border-radius: 10px;
-      padding: 14px 16px; margin: 12px 0;
-    }
-    section h2 {
-      font-size: 16px; margin: 0 0 8px 0; display: flex; align-items: center; gap: 8px;
-    }
+    section { background: #fff; border: 1px solid #eaeaea; border-radius: 10px; padding: 14px 16px; margin: 12px 0; }
+    section h2 { font-size: 16px; margin: 0 0 8px 0; display: flex; align-items: center; gap: 8px; }
     .row { display: grid; grid-template-columns: repeat(12, 1fr); gap: 10px; }
-    .col-12 { grid-column: span 12; } .col-6 { grid-column: span 6; }
-    .col-4 { grid-column: span 4; } .col-3 { grid-column: span 3; }
-    .col-2 { grid-column: span 2; } .col-8 { grid-column: span 8; }
+    .col-12 { grid-column: span 12; } .col-8 { grid-column: span 8; } .col-6 { grid-column: span 6; }
+    .col-4 { grid-column: span 4; } .col-3 { grid-column: span 3; } .col-2 { grid-column: span 2; }
     label { font-size: 13px; color: #333; display: block; margin-bottom: 4px; }
-    input, select, textarea {
-      width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px;
-      background: #fff;
-    }
+    input, select, textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; background: #fff; }
     textarea { min-height: 72px; resize: vertical; }
     .muted { color: #666; font-size: 12px; }
-    .chip {
-      display: inline-block; padding: 4px 8px; border: 1px solid #ddd; border-radius: 999px; font-size: 12px; margin-right: 6px;
-      background: #f4f4f4;
-    }
+    .chip { display: inline-block; padding: 4px 8px; border: 1px solid #ddd; border-radius: 999px; font-size: 12px; margin-right: 6px; background: #f4f4f4; }
     .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    button {
-      padding: 10px 14px; border-radius: 10px; border: 1px solid #111; background: #111; color: #fff; cursor: pointer;
-      font-size: 14px;
-    }
+    button { padding: 10px 14px; border-radius: 10px; border: 1px solid #111; background: #111; color: #fff; cursor: pointer; font-size: 14px; }
     button.secondary { background: #fff; color: #111; }
     .grid-compact input { padding: 8px; }
     .hint { font-size: 12px; color: #555; margin-top: 4px; }
-    .pill { border: 1px solid #ddd; border-radius: 999px; padding: 2px 8px; font-size: 12px; }
-    .kpi {
-      background: #f8f8ff; border: 1px dashed #bdbdfc; padding: 8px 10px; border-radius: 8px; font-size: 12px; color: #333;
-    }
+    .kpi { background: #f8f8ff; border: 1px dashed #bdbdfc; padding: 8px 10px; border-radius: 8px; font-size: 12px; color: #333; }
     .flex { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .divider { height: 1px; background: #eee; margin: 8px 0; }
     .right { text-align: right; }
@@ -67,118 +45,69 @@
   <header>
     <h1>Historia Clínica – Hernia Ventral Compleja (Ambulatorio)</h1>
     <div class="actions">
-      <button id="btn-resumen">Ver resumen</button>
+      <button id="btn-resumen" onclick="generateSummary()">Ver resumen</button>
       <button class="secondary" onclick="window.print()">Imprimir / PDF</button>
       <button class="secondary" id="btn-limpiar">Limpiar</button>
     </div>
   </header>
 
   <main>
-    <!-- Identificación -->
+    <!-- 1) Identificación -->
     <section>
       <h2>1) Identificación y Motivo</h2>
       <div class="row grid-compact">
         <div class="col-4">
-          <label>Nombre</label>
-          <input id="nombre" placeholder="Nombre y apellidos" />
+          <label>Nombre</label><input id="nombre" placeholder="Nombre y apellidos" />
         </div>
         <div class="col-2">
-          <label>Documento</label>
-          <input id="doc" placeholder="CC / ID" />
+          <label>Documento</label><input id="doc" placeholder="CC / ID" />
         </div>
         <div class="col-2">
-          <label>Edad</label>
-          <input id="edad" type="number" min="0" placeholder="años" />
+          <label>Edad</label><input id="edad" type="number" min="0" placeholder="años" />
         </div>
         <div class="col-2">
           <label>Sexo</label>
-          <select id="sexo">
-            <option value=""></option>
-            <option>F</option>
-            <option>M</option>
-          </select>
+          <select id="sexo"><option value=""></option><option>F</option><option>M</option></select>
         </div>
         <div class="col-2">
-          <label>Fecha</label>
-          <input id="fecha" type="date" />
+          <label>Fecha</label><input id="fecha" type="date" />
         </div>
         <div class="col-12">
-          <label>Motivo de consulta</label>
-          <input id="motivo" placeholder="Ej. Dolor, aumento de volumen, recidiva…" />
+          <label>Motivo de consulta</label><input id="motivo" placeholder="Dolor, aumento de volumen, recidiva…" />
         </div>
       </div>
     </section>
 
-    <!-- Antecedentes breves -->
+    <!-- 2) Antecedentes -->
     <section>
       <h2>2) Antecedentes clave (rápido)</h2>
       <div class="row grid-compact">
-        <div class="col-2">
-          <label>Peso (kg)</label>
-          <input id="peso" type="number" step="0.1" />
-        </div>
-        <div class="col-2">
-          <label>Talla (m)</label>
-          <input id="talla" type="number" step="0.01" />
-        </div>
-        <div class="col-2">
-          <label>IMC</label>
-          <input id="imc" type="text" placeholder="auto" readonly />
-        </div>
-        <div class="col-3">
-          <label>DM</label>
-          <select id="dm"><option></option><option>No</option><option>Tipo 2</option><option>Tipo 1</option></select>
-        </div>
-        <div class="col-3">
-          <label>Tabaquismo</label>
-          <select id="tabaco"><option></option><option>No</option><option>Actual</option><option>Exfumador</option></select>
-        </div>
-        <div class="col-3">
-          <label>Uso de anticoagulación</label>
-          <select id="ac"><option></option><option>No</option><option>Sí</option></select>
-        </div>
-        <div class="col-3">
-          <label>Alergias</label>
-          <input id="alergias" placeholder="—" />
-        </div>
-        <div class="col-3">
-          <label>ASA</label>
-          <select id="asa"><option></option><option>I</option><option>II</option><option>III</option><option>IV</option></select>
-        </div>
-        <div class="col-3">
-          <label>Cirugías previas de pared</label>
-          <select id="previas"><option></option><option>Ninguna</option><option>1</option><option>2+</option></select>
-        </div>
-        <div class="col-3">
-          <label>Infección sitio Qx previa</label>
-          <select id="isq"><option></option><option>No</option><option>Sí</option></select>
-        </div>
+        <div class="col-2"><label>Peso (kg)</label><input id="peso" type="number" step="0.1" /></div>
+        <div class="col-2"><label>Talla (m)</label><input id="talla" type="number" step="0.01" /></div>
+        <div class="col-2"><label>IMC</label><input id="imc" type="text" placeholder="auto" readonly /></div>
+        <div class="col-3"><label>DM</label><select id="dm"><option></option><option>No</option><option>Tipo 2</option><option>Tipo 1</option></select></div>
+        <div class="col-3"><label>Tabaquismo</label><select id="tabaco"><option></option><option>No</option><option>Actual</option><option>Exfumador</option></select></div>
+        <div class="col-3"><label>Uso de anticoagulación</label><select id="ac"><option></option><option>No</option><option>Sí</option></select></div>
+        <div class="col-3"><label>Alergias</label><input id="alergias" placeholder="—" /></div>
+        <div class="col-3"><label>ASA</label><select id="asa"><option></option><option>I</option><option>II</option><option>III</option><option>IV</option></select></div>
+        <div class="col-3"><label>Cirugías previas de pared</label><select id="previas"><option></option><option>Ninguna</option><option>1</option><option>2+</option></select></div>
+        <div class="col-3"><label>Infección sitio Qx previa</label><select id="isq"><option></option><option>No</option><option>Sí</option></select></div>
       </div>
     </section>
 
-    <!-- Estado funcional -->
+    <!-- 3) Estado funcional -->
     <section>
       <h2>3) Estado funcional</h2>
       <div class="row grid-compact">
-        <div class="col-3">
-          <label>ECOG</label>
-          <select id="ecog">
-            <option></option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option>
-          </select>
+        <div class="col-3"><label>ECOG</label>
+          <select id="ecog"><option></option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
         </div>
-        <div class="col-3">
-          <label>METs estimados</label>
-          <select id="mets">
-            <option></option><option>&lt;4</option><option>4–7</option><option>&gt;7</option>
-          </select>
+        <div class="col-3"><label>METs estimados</label>
+          <select id="mets"><option></option><option>&lt;4</option><option>4–7</option><option>&gt;7</option></select>
         </div>
-        <div class="col-6">
-          <label>Limitaciones relevantes</label>
-          <input id="limitaciones" placeholder="Disnea, dolor, marcha, ortopnea…" />
-        </div>
+        <div class="col-6"><label>Limitaciones relevantes</label><input id="limitaciones" placeholder="Disnea, dolor, marcha, ortopnea…" /></div>
       </div>
       <div class="hint">Sugerencia rápida: ≥4 METs suele ser adecuado para cirugía electiva.</div>
-    
       <div class="divider"></div>
       <div class="row grid-compact">
         <div class="col-6">
@@ -205,82 +134,49 @@
           <div class="hint">Se estimará: &lt;4 METs (bajo), 4–7 METs (moderado), &gt;7 METs (alto).</div>
         </div>
       </div>
-
     </section>
 
-    <!-- Caracterización de la hernia (EHS) -->
+    <!-- 4) EHS -->
     <section>
       <h2>4) Hernia ventral – Clasificación EHS</h2>
       <div class="row grid-compact">
         <div class="col-4">
           <label>Localización (EHS)</label>
-          <select id="ehs_loc" title="EHS: M1–M5 (línea media) o L1–L4 (lateral)">
+          <select id="ehs_loc">
             <option></option>
-            <option>M1 Subxifoidea</option>
-            <option>M2 Epigástrica</option>
-            <option>M3 Umbilical</option>
-            <option>M4 Infraumbilical</option>
-            <option>M5 Suprapúbica</option>
-            <option>L1 Flanco superior</option>
-            <option>L2 Flanco lateral</option>
-            <option>L3 Flanco inferior</option>
-            <option>L4 Lumbar</option>
+            <option>M1 Subxifoidea</option><option>M2 Epigástrica</option><option>M3 Umbilical</option>
+            <option>M4 Infraumbilical</option><option>M5 Suprapúbica</option>
+            <option>L1 Flanco superior</option><option>L2 Flanco lateral</option>
+            <option>L3 Flanco inferior</option><option>L4 Lumbar</option>
           </select>
         </div>
-        <div class="col-2">
-          <label>Ancho defecto (cm)</label>
-          <input id="ancho" type="number" step="0.1" />
-        </div>
-        <div class="col-2">
-          <label>Alto defecto (cm)</label>
-          <input id="alto" type="number" step="0.1" />
-        </div>
-        <div class="col-2">
-          <label>Clase W (EHS)</label>
-          <input id="wclass" placeholder="W1/W2/W3" readonly />
-        </div>
-        <div class="col-2">
-          <label>Reducibilidad</label>
-          <select id="reducible"><option></option><option>Reducible</option><option>Irreducible</option></select>
-        </div>
-        <div class="col-3">
-          <label>Tipo</label>
-          <select id="tipo"><option></option><option>Primaria</option><option>Incisional</option></select>
-        </div>
-        <div class="col-3">
-          <label>N° recidivas</label>
-          <select id="recidivas"><option></option><option>0</option><option>1</option><option>2+</option></select>
-        </div>
-        <div class="col-3">
-          <label>Estado piel/tejidos</label>
-          <select id="piel"><option></option><option>Íntegra</option><option>Fístula</option><option>Piel adelgazada</option><option>Úlcera</option></select>
-        </div>
-        <div class="col-3">
-          <label>Contaminación (CDC)</label>
-          <select id="cdc"><option></option><option>I Limpia</option><option>II Limpia-contaminada</option><option>III Contaminada</option><option>IV Sucia</option></select>
-        </div>
+        <div class="col-2"><label>Ancho defecto (cm)</label><input id="ancho" type="number" step="0.1" /></div>
+        <div class="col-2"><label>Alto defecto (cm)</label><input id="alto" type="number" step="0.1" /></div>
+        <div class="col-2"><label>Clase W (EHS)</label><input id="wclass" placeholder="W1/W2/W3" readonly /></div>
+        <div class="col-2"><label>Reducibilidad</label><select id="reducible"><option></option><option>Reducible</option><option>Irreducible</option></select></div>
+        <div class="col-3"><label>Tipo</label><select id="tipo"><option></option><option>Primaria</option><option>Incisional</option></select></div>
+        <div class="col-3"><label>N° recidivas</label><select id="recidivas"><option></option><option>0</option><option>1</option><option>2+</option></select></div>
+        <div class="col-3"><label>Estado piel/tejidos</label><select id="piel"><option></option><option>Íntegra</option><option>Fístula</option><option>Piel adelgazada</option><option>Úlcera</option></select></div>
+        <div class="col-3"><label>Contaminación (CDC)</label><select id="cdc"><option></option><option>I Limpia</option><option>II Limpia-contaminada</option><option>III Contaminada</option><option>IV Sucia</option></select></div>
       </div>
       <div class="kpi">EHS W: W1 &lt;4 cm | W2 4–10 cm | W3 &gt;10 cm</div>
     </section>
 
-    <!-- Índices preoperatorios -->
+    <!-- 5) Índices preop -->
     <section>
       <h2>5) Índices preoperatorios</h2>
       <div class="row grid-compact">
         <div class="col-3">
-          <label>CeDAR / CEDAR (valor)</label>
-          <input id="cedar" placeholder="%" />
+          <label>CeDAR / CEDAR (valor)</label><input id="cedar" placeholder="%" />
           <div class="hint">Ingrese el % de riesgo estimado si ya lo calculó.</div>
         </div>
         <div class="col-5">
-          <label>Clasificación Carolinas (especifique)</label>
-          <input id="carolinas" placeholder="Nombre/versión empleada en su centro" />
-          <div class="hint">Ej.: protocolo de preparación preoperatoria utilizado (Carolinas).</div>
+          <label>Clasificación Carolinas (especifique)</label><input id="carolinas" placeholder="Nombre/versión empleada en su centro" />
+          <div class="hint">Ej.: protocolo de preparación preoperatoria (Carolinas).</div>
         </div>
         <div class="col-4">
-          <label>VHWG (opcional)</label>
-          <select id="vhwg"><option></option><option>I</option><option>II</option><option>III</option><option>IV</option></select>
-          <div class="hint">Grupo de Trabajo en Hernia Ventral (riesgo según comorbilidades/contaminación).</div>
+          <label>VHWG (opcional)</label><select id="vhwg"><option></option><option>I</option><option>II</option><option>III</option><option>IV</option></select>
+          <div class="hint">Grupo de Trabajo en Hernia Ventral.</div>
         </div>
         <div class="col-12">
           <label>Notas de optimización preoperatoria</label>
@@ -296,131 +192,83 @@
       </div>
     </section>
 
-    <!-- Estudios -->
+    <!-- 6) Estudios -->
     <section>
       <h2>6) Estudios e imágenes</h2>
       <div class="row grid-compact">
-        <div class="col-4">
-          <label>Imágenes</label>
-          <select id="img"><option></option><option>TAC</option><option>Eco pared</option><option>RM</option></select>
-        </div>
-        <div class="col-8">
-          <label>Hallazgos clave</label>
-          <input id="hallazgos" placeholder="P. ex. pérdida de dominio, diástasis, colgajos, contenido, defectos múltiples…" />
-        </div>
+        <div class="col-4"><label>Imágenes</label><select id="img"><option></option><option>TAC</option><option>Eco pared</option><option>RM</option></select></div>
+        <div class="col-8"><label>Hallazgos clave</label><input id="hallazgos" placeholder="Pérdida de dominio, diástasis, contenido, defectos múltiples…" /></div>
       </div>
     </section>
 
-    <!-- Plan -->
+    <!-- 7) Plan -->
     <section>
       <h2>7) Plan quirúrgico y perioperatorio</h2>
       <div class="row grid-compact">
-        <div class="col-4">
-          <label>Técnica propuesta</label>
-          <select id="tecnica">
-            <option></option>
-            <option>Abierta</option>
-            <option>Laparoscópica</option>
-            <option>Robótica</option>
-            <option>Híbrida</option>
-          </select>
+        <div class="col-4"><label>Técnica propuesta</label>
+          <select id="tecnica"><option></option><option>Abierta</option><option>Laparoscópica</option><option>Robótica</option><option>Híbrida</option></select>
         </div>
-        <div class="col-4">
-          <label>Plano de reparación</label>
-          <select id="plano">
-            <option></option>
-            <option>Sublay/retromuscular</option>
-            <option>Onlay</option>
-            <option>Underlay/Intraperitoneal</option>
-            <option>Preperitoneal</option>
-          </select>
+        <div class="col-4"><label>Plano de reparación</label>
+          <select id="plano"><option></option><option>Sublay/retromuscular</option><option>Onlay</option><option>Underlay/Intraperitoneal</option><option>Preperitoneal</option></select>
         </div>
-        <div class="col-4">
-          <label>Malla prevista</label>
-          <select id="malla">
-            <option></option>
-            <option>Sintética macroporosa</option>
-            <option>Reforzada/compuesta</option>
-            <option>Biológica</option>
-          </select>
+        <div class="col-4"><label>Malla prevista</label>
+          <select id="malla"><option></option><option>Sintética macroporosa</option><option>Reforzada/compuesta</option><option>Biológica</option></select>
         </div>
-        
         <div class="col-12">
           <label>Terapias de preparación de pared</label>
           <div class="flex">
             <span class="chip"><input type="checkbox" id="plan_btx" /> Requiere toxina botulínica preoperatoria</span>
             <span class="chip"><input type="checkbox" id="plan_npp" /> Requiere neumoperitoneo progresivo preoperatorio</span>
           </div>
-          <div class="hint">Seleccione si se planifica BTX para relajación parietal y/o NPP para ganancia de volumen abdominal.</div>
+          <div class="hint">Seleccione si se planifica BTX (relajación parietal) y/o NPP (ganancia de volumen abdominal).</div>
         </div>
-
-        <div class="col-12">
-          <label>Observaciones</label>
-          <textarea id="obs" placeholder="Liberación de componentes, TAR, puenteo, drenajes, profilaxis, ERAS, etc."></textarea>
-        </div>
+        <div class="col-12"><label>Observaciones</label><textarea id="obs" placeholder="Liberación de componentes, TAR, drenajes, profilaxis, ERAS, etc."></textarea></div>
       </div>
     </section>
 
-    <!-- Consentimiento y seguimiento -->
+    <!-- 8) Consentimiento -->
     <section>
       <h2>8) Consentimiento y seguimiento</h2>
       <div class="row grid-compact">
-        <div class="col-4">
-          <label>Consentimiento informado</label>
-          <select id="consent"><option></option><option>Explicado y firmado</option><option>Pendiente</option></select>
-        </div>
-        <div class="col-4">
-          <label>Profilaxis tromboembólica</label>
-          <select id="tromb"><option></option><option>Estratificado y ordenado</option><option>Pendiente</option></select>
-        </div>
-        <div class="col-4">
-          <label>Antibiótico profiláctico</label>
-          <select id="abx"><option></option><option>Indicado</option><option>No indicado</option><option>Pendiente</option></select>
-        </div>
-        <div class="col-12">
-          <label>Plan de control</label>
-          <input id="control" placeholder="Ej. Control 7–10 días / herida; 30 días; 90 días." />
-        </div>
+        <div class="col-4"><label>Consentimiento informado</label><select id="consent"><option></option><option>Explicado y firmado</option><option>Pendiente</option></select></div>
+        <div class="col-4"><label>Profilaxis tromboembólica</label><select id="tromb"><option></option><option>Estratificado y ordenado</option><option>Pendiente</option></select></div>
+        <div class="col-4"><label>Antibiótico profiláctico</label><select id="abx"><option></option><option>Indicado</option><option>No indicado</option><option>Pendiente</option></select></div>
+        <div class="col-12"><label>Plan de control</label><input id="control" placeholder="Control 7–10 días / herida; 30 días; 90 días." /></div>
       </div>
     </section>
 
-    <!-- Resumen -->
-    
-    <!-- Justificación terapias (auto) -->
+    <!-- 9) Justificación -->
     <section>
       <h2>9) Justificación de terapias de optimización de pared</h2>
       <div class="muted">Se genera automáticamente si marcas BTX y/o NPP y presionas “Ver resumen”.</div>
       <div id="justificacion" class="kpi">Sin terapias seleccionadas.</div>
     </section>
 
-    
-    <!-- Sugerencias automáticas -->
+    <!-- 10) Sugerencias automáticas -->
     <section>
       <h2>10) Sugerencias automáticas</h2>
       <div id="tev_sug" class="kpi">Sin sugerencias generadas. Use “Ver resumen”.</div>
     </section>
 
+    <!-- Resumen -->
     <section>
       <h2>Resumen generado</h2>
       <div id="resumen" class="muted">Use “Ver resumen” para generar un texto listo para copiar al EHR.</div>
     </section>
 
     <div class="divider"></div>
-    <p class="muted right">v1.0 · Diseñado para consulta ágil · Campos mínimos y selectores rápidos</p>
+    <p class="muted right">v1.3 · Interactivo, con justificativos para asegurador y sugerencias TEV</p>
   </main>
 
   <script>
     const $ = (id) => document.getElementById(id);
 
+    // === Cálculos básicos ===
     function calcIMC() {
       const p = parseFloat($('peso').value);
       const t = parseFloat($('talla').value);
-      if (p > 0 && t > 0) {
-        const imc = p / (t*t);
-        $('imc').value = imc.toFixed(1);
-      } else {
-        $('imc').value = '';
-      }
+      if (p > 0 && t > 0) $('imc').value = (p / (t*t)).toFixed(1);
+      else $('imc').value = '';
     }
     $('peso').addEventListener('input', calcIMC);
     $('talla').addEventListener('input', calcIMC);
@@ -431,21 +279,14 @@
         if (w < 4) $('wclass').value = 'W1';
         else if (w <= 10) $('wclass').value = 'W2';
         else $('wclass').value = 'W3';
-      } else {
-        $('wclass').value = '';
-      }
+      } else $('wclass').value = '';
     }
     $('ancho').addEventListener('input', calcW);
 
-    // === Estado funcional: cálculo asistido ===
-    // ECOG por criterios
+    // === Estado funcional asistido ===
     document.querySelectorAll('input[name="ecog_crit"]').forEach(r => {
-      r.addEventListener('change', (e) => {
-        const v = e.target.value;
-        $('ecog').value = v;
-      });
+      r.addEventListener('change', (e) => { $('ecog').value = e.target.value; });
     });
-    // METs por actividades
     function recalcMETsFromChecks() {
       const anyHigh = Array.from(document.querySelectorAll('.mets_high')).some(c => c.checked);
       const anyMod  = Array.from(document.querySelectorAll('.mets_mod')).some(c => c.checked);
@@ -455,35 +296,43 @@
       else if (anyLow) $('mets').value = '<4';
       else $('mets').value = '';
     }
-    document.querySelectorAll('.mets_high, .mets_mod, .mets_low').forEach(c => {
-      c.addEventListener('change', recalcMETsFromChecks);
-    });
+    document.querySelectorAll('.mets_high, .mets_mod, .mets_low').forEach(c => c.addEventListener('change', recalcMETsFromChecks));
 
-    // === Sugerencia automática de profilaxis TEV ===
-    function sugerirTEV() {
-      const imcVal = parseFloat($('imc').value);
-      const ecogVal = $('ecog').value ? parseInt($('ecog').value, 10) : null;
-      const cdcVal = $('cdc').value;
-      let altoRiesgo = false;
+    // === Sugerencia TEV ===
+    function sugTEV() {
+      const parts = [];
+      const factors = [];
+      const edad = parseInt($('edad').value || '0', 10);
+      const imc = parseFloat($('imc').value);
+      const ecog = $('ecog').value ? parseInt($('ecog').value, 10) : null;
+      const tecnica = $('tecnica').value;
+      const ac = $('ac').value;
+      const asa = $('asa').value;
 
-      if (!isNaN(imcVal) && imcVal >= 30) altoRiesgo = true;
-      if (ecogVal !== null && ecogVal >= 2) altoRiesgo = true;
-      if (cdcVal && /II|III|IV/.test(cdcVal)) altoRiesgo = true;
+      if (!isNaN(edad) && edad >= 60) factors.push('edad ≥60');
+      if (!isNaN(imc) && imc >= 30) factors.push('IMC ≥30');
+      if (ecog !== null && ecog >= 2) factors.push(`ECOG ${ecog} (movilidad reducida)`);
+      if (tecnica === 'Abierta') factors.push('cirugía abierta');
+      if (ac === 'Sí') factors.push('anticoagulación crónica');
+      if (asa === 'III' || asa === 'IV') factors.push(`ASA ${asa}`);
 
-      if (altoRiesgo) {
-        $('tromb').value = 'Estratificado y ordenado';
-      } else {
-        $('tromb').value = '';
-      }
+      let nivel = 'bajo';
+      if (factors.length >= 3 || (ecog !== null && ecog >= 2) || (!isNaN(imc) && imc >= 35)) nivel = 'alto';
+      else if (factors.length === 2) nivel = 'moderado';
+      else if (factors.length === 1) nivel = 'leve';
+
+      let recomendacion = '';
+      if (nivel === 'bajo' || nivel === 'leve') recomendacion = 'Deambulación temprana + medidas mecánicas según criterio.';
+      else if (nivel === 'moderado') recomendacion = 'Profilaxis farmacológica estándar (p. ej., HBPM dosis profiláctica) + compresión mecánica.';
+      else recomendacion = 'Profilaxis combinada: HBPM dosis profiláctica (o ajuste según función renal) + compresión neumática intermitente; considerar prolongación 7–14 días.';
+
+      const txt = `Sugerencia TEV: Riesgo ${nivel}. Factores: ${factors.join(', ') || 'sin factores mayores detectados'}. Recomendación: ${recomendacion}`;
+      const box = $('tev_sug'); if (box) box.textContent = txt;
+      if (nivel) { const sel = $('tromb'); if (sel) sel.value = 'Estratificado y ordenado'; }
+      return txt;
     }
-    // Llamar sugerirTEV cuando cambien estos campos
-    ['imc','ecog','cdc'].forEach(id => {
-      $(id).addEventListener('input', sugerirTEV);
-      $(id).addEventListener('change', sugerirTEV);
-    });
 
-
-
+    // === Resumen + Justificación ===
     function resumenTexto() {
       const parts = [];
       const nombre = $('nombre').value || 'Paciente';
@@ -534,11 +383,9 @@
       if ($('opt_tabaco').checked) opt.push('cese tabaco');
       if ($('opt_dm').checked) opt.push('control glucémico');
       if ($('opt_alb').checked) opt.push('nutrición/albumina');
-      if ($('opt_botox').checked) opt.push('BTX/neumoperitoneo');
+      if ($('opt_botox').checked) opt.push('BTX/NPP valorado');
       if ($('opt_abd').checked) opt.push('faja/FT');
-      if (idx.length || opt.length) {
-        parts.push(`Índices preoperatorios: ${idx.join(', ')}${opt.length ? '; Optimización: ' + opt.join(', ') : ''}.`);
-      }
+      if (idx.length || opt.length) parts.push(`Índices preoperatorios: ${idx.join(', ')}${opt.length ? '; Optimización: ' + opt.join(', ') : ''}.`);
 
       // Estudios
       const img = $('img').value, hall = $('hallazgos').value;
@@ -546,6 +393,7 @@
 
       // Plan
       const tec = $('tecnica').value, plano = $('plano').value, malla = $('malla').value, obs = $('obs').value;
+      const btx = $('plan_btx').checked, npp = $('plan_npp').checked;
       const plan = [];
       if (tec) plan.push(tec);
       if (plano) plan.push(plano);
@@ -554,7 +402,7 @@
       if (npp) plan.push('NPP preoperatorio');
       if (plan.length || obs) parts.push(`Plan: ${plan.join(', ')}${obs ? '. ' + obs : ''}.`);
 
-      // Consentimiento
+      // Perioperatorio
       const cons = $('consent').value, tromb = $('tromb').value, abx = $('abx').value, ctrl = $('control').value;
       const peri = [];
       if (cons) peri.push(`consentimiento ${cons.toLowerCase()}`);
@@ -563,29 +411,20 @@
       if (ctrl) peri.push(`control: ${ctrl}`);
       if (peri.length) parts.push(`Perioperatorio: ${peri.join(', ')}.`);
 
-
-      // Terapias de preparación de pared (BTX / NPP)
-      const btx = $('plan_btx').checked;
-      const npp = $('plan_npp').checked;
-      if (btx) plan.push('BTX preoperatoria');
-      if (npp) plan.push('NPP preoperatorio');
-
-      
-      // Justificación para asegurador (si aplica) con variables del caso
+      // Justificación BTX/NPP + TEV (para asegurador)
       const justParts = [];
       if (btx || npp) {
-        // Capturar variables clínicas relevantes
+        // Variables del caso
         const imcVal = parseFloat($('imc').value);
         const ecogVal = $('ecog').value ? parseInt($('ecog').value, 10) : null;
-        const cdcVal = $('cdc').value;        // I, II, III, IV
-        const wClass = $('wclass').value;     // W1, W2, W3
+        const cdcVal = $('cdc').value;
+        const wClass = $('wclass').value;
         const hallTxt = ($('hallazgos').value || '').toLowerCase();
         const ehsLocTxt = $('ehs_loc').value;
         const anchoVal = $('ancho').value;
         const altoVal  = $('alto').value;
         const tipoHernia = $('tipo').value;
 
-        // Derivar hallazgos clave
         const perdidaDominio = /p[eé]rdida\s+de\s+dominio/.test(hallTxt);
         const dias = /di[aá]stasis/.test(hallTxt);
         const multiplDefectos = /m[uú]ltiples?|m[uú]ltiple/.test(hallTxt);
@@ -606,103 +445,52 @@
 
         const criteriosCaso = factores.length ? ` Criterios del caso: ${factores.join(', ')}.` : '';
 
-        // Añadir justificación TEV si hay factores relevantes
-        const tevSug = sugTEV ? sugTEV() : '';
-        if (tevSug) {
-          justParts.push('');
-          justParts.push('Justificación riesgo TEV: ' + tevSug);
-        }
-
-        justParts.push('Justificación terapias de optimización:');
         if (btx) {
-          justParts.push('• Toxina botulínica preoperatoria: indicada para relajación de musculatura lateral (oblicuos/transverso), incrementando la complacencia abdominal y facilitando cierre sin tensión en defectos amplios o con pérdida de dominio. Disminuye la necesidad de puentes y reduce tensión sobre la línea media y la malla, con potencial reducción de dehiscencia/complicaciones de la herida.');
+          justParts.push('• Toxina botulínica preoperatoria: indicada para relajación de musculatura lateral (oblicuos/transverso), incrementando la complacencia abdominal y facilitando cierre sin tensión en defectos amplios o con pérdida de dominio. Disminuye puentes y tensión sobre la malla, con potencial reducción de dehiscencia/ISQ.');
         }
         if (npp) {
-          justParts.push('• Neumoperitoneo progresivo (NPP): útil en pérdidas de dominio, permitiendo expansión gradual de la cavidad abdominal y adaptación diafragmática; mejora la factibilidad del cierre, reduce el riesgo de síndrome compartimental abdominal y complicaciones respiratorias postoperatorias.');
+          justParts.push('• Neumoperitoneo progresivo (NPP): en pérdidas de dominio, permite expansión gradual de la cavidad abdominal y adaptación diafragmática; mejora la factibilidad del cierre y reduce riesgo de síndrome compartimental y complicaciones respiratorias.');
         }
-        justParts.push('Ambas medidas forman parte de protocolos modernos de optimización preoperatoria en hernias ventrales complejas para mejorar la factibilidad del cierre, disminuir morbilidad y optimizar resultados funcionales.' + criteriosCaso);
+        justParts.push('Estas medidas se incluyen en protocolos modernos de optimización preoperatoria en hernias ventrales complejas para mejorar la factibilidad del cierre, disminuir morbilidad y optimizar resultados funcionales.' + criteriosCaso);
+
+        // Añadir justificación TEV
+        const tevSug = sugTEV();
+        if (tevSug) justParts.push('Justificación riesgo TEV: ' + tevSug);
       }
       const justTxt = justParts.join(' ');
+      if (justTxt) $('justificacion').textContent = justTxt;
+      else $('justificacion').textContent = 'Sin terapias seleccionadas.';
 
-      if (justTxt) {
-        $('justificacion').textContent = justTxt;
-      } else {
-        $('justificacion').textContent = 'Sin terapias seleccionadas.';
-      }
-      const justTxt = justParts.join(' ');
-      if (justTxt) {
-        $('justificacion').textContent = justTxt;
-      } else {
-        $('justificacion').textContent = 'Sin terapias seleccionadas.';
-      }
-
-      if (justTxt) { parts.push(justTxt); }
-      if (justTxt) parts.push(justTxt);
-
-      // === Sugerencia TEV (profilaxis tromboembólica) basada en factores simples ===
-      function sugTEV() {
-        const parts = [];
-        const factors = [];
-        const edad = parseInt($('edad').value || '0', 10);
-        const imc = parseFloat($('imc').value);
-        const ecog = $('ecog').value ? parseInt($('ecog').value, 10) : null;
-        const tecnica = $('tecnica').value; // Abierta/Lap/Robótica/Híbrida
-        const ac = $('ac').value; // Anticoagulación Sí/No
-        const asa = $('asa').value;
-        
-        // Contabilizar factores
-        if (!isNaN(edad) && edad >= 60) factors.push('edad ≥60');
-        if (!isNaN(imc) && imc >= 30) factors.push('IMC ≥30');
-        if (ecog !== null && ecog >= 2) factors.push(`ECOG ${ecog} (movilidad reducida)`);
-        if (tecnica === 'Abierta') factors.push('cirugía abierta');
-        if (ac === 'Sí') factors.push('uso de anticoagulación crónica');
-        if (asa === 'III' || asa === 'IV') factors.push(`ASA ${asa}`);
-
-        // Clasificación simple de riesgo (no sustituye juicio clínico)
-        let nivel = 'bajo';
-if (factors.length >= 3 || (ecog !== null && ecog >= 2) || (!isNaN(imc) && imc >= 35)) {
-  nivel = 'alto';
-} else if (factors.length === 2) {
-  nivel = 'moderado';
-} else if (factors.length === 1) {
-  nivel = 'leve';
-}
-let recomendacion = '';
-        if (nivel === 'bajo' || nivel === 'leve') {
-          recomendacion = 'Deambulación temprana + medidas mecánicas según criterio.';
-        } else if (nivel === 'moderado') {
-          recomendacion = 'Profilaxis farmacológica estándar (p. ej., HBPM dosis profiláctica) + compresión mecánica.';
-        } else {
-          recomendacion = 'Profilaxis combinada: HBPM dosis profiláctica (o ajuste según función renal) + compresión neumática intermitente; considerar prolongación 7–14 días según evolución.';
-        }
-
-        const txt = `Sugerencia TEV: Riesgo ${nivel}. Factores: ${factors.join(', ') || 'sin factores mayores detectados'}. Recomendación: ${recomendacion}`;
-        $('tev_sug').textContent = txt;
-
-        // Si hay sugerencia, marcar "tromb" como "Estratificado y ordenado" (no bloquea edición)
-        if (nivel !== '') {
-          $('tromb').value = 'Estratificado y ordenado';
-        }
-
-        return txt;
-      }
-
-      const tevText = sugTEV();
       return parts.join(' ');
     }
 
-    $('btn-resumen').addEventListener('click', () => {
-      $('resumen').textContent = resumenTexto();
-      navigator.clipboard?.writeText($('resumen').textContent).catch(()=>{});
+    // Wrapper robusto para generar y copiar el resumen
+    function generateSummary() {
+      try {
+        const txt = resumenTexto();
+        $('resumen').textContent = txt;
+        try { navigator.clipboard && navigator.clipboard.writeText(txt); } catch (e) {}
+      } catch (err) {
+        const msg = 'Error al generar el resumen. Abre este archivo en un navegador (Safari/Chrome/Edge/Firefox) y no en un visor.';
+        const r = $('resumen');
+        if (r) r.textContent = msg + (err && err.message ? ' Detalle: ' + err.message : '');
+      }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      const btn = $('btn-resumen');
+      if (btn && !btn._bound) { btn.addEventListener('click', generateSummary); btn._bound = true; }
     });
 
+    // Limpiar
     $('btn-limpiar').addEventListener('click', () => {
       document.querySelectorAll('input, select, textarea').forEach(el => {
         if (el.id === 'imc' || el.id === 'wclass') { el.value = ''; }
-        else if (el.type === 'checkbox') { el.checked = false; }
+        else if (el.type === 'checkbox' || el.type === 'radio') { el.checked = false; }
         else { el.value = ''; }
       });
       $('resumen').textContent = 'Use “Ver resumen” para generar un texto listo para copiar al EHR.';
+      $('tev_sug').textContent = 'Sin sugerencias generadas. Use “Ver resumen”.';
+      $('justificacion').textContent = 'Sin terapias seleccionadas.';
     });
   </script>
 </body>

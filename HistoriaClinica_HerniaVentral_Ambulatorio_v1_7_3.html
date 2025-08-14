@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Historia Clínica – Hernia Ventral Compleja (Ambulatorio)</title>
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs>  <linearGradient id='g' x1='0' x2='1' y1='0' y2='1'>    <stop offset='0' stop-color='#2b7bff'/>    <stop offset='1' stop-color='#00c2ff'/>  </linearGradient></defs><rect width='64' height='64' rx='12' fill='url(#g)'/><path d='M32 10 v44 M10 32 h44' stroke='white' stroke-width='8' stroke-linecap='round'/></svg>">
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; line-height: 1.45; }
+    body { margin: 0; background: #fafafa; color: #111; }
+    header { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid #eaeaea; padding: 10px 14px;
+      display: flex; align-items: center; gap: 12px; justify-content: space-between; flex-wrap: wrap; }
+    .brand { display:flex; align-items:center; gap:10px; }
+    .brand svg { width:28px; height:28px; }
+    h1 { font-size: 18px; margin: 0; }
+    main { max-width: 980px; margin: 0 auto; padding: 16px; }
+    section { background: #fff; border: 1px solid #eaeaea; border-radius: 10px; padding: 14px 16px; margin: 12px 0; }
+    section h2 { font-size: 16px; margin: 0 0 8px 0; display: flex; align-items: center; gap: 8px; }
+    .row { display: grid; grid-template-columns: repeat(12, 1fr); gap: 10px; }
+    .col-12 { grid-column: span 12; } .col-8 { grid-column: span 8; } .col-6 { grid-column: span 6; }
+    .col-5 { grid-column: span 5; } .col-4 { grid-column: span 4; } .col-3 { grid-column: span 3; } .col-2 { grid-column: span 2; }
+    label { font-size: 13px; color: #333; display: block; margin-bottom: 4px; }
+    input, select, textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; background: #fff; }
+    textarea { min-height: 72px; resize: vertical; }
+    .muted { color: #666; font-size: 12px; }
+    .chip { display: inline-block; padding: 4px 8px; border: 1px solid #ddd; border-radius: 999px; font-size: 12px; margin-right: 6px; background: #f4f4f4; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    button { padding: 10px 14px; border-radius: 10px; border: 1px solid #111; background: #111; color: #fff; cursor: pointer; font-size: 14px; }
+    button.secondary { background: #fff; color: #111; }
+    .grid-compact input { padding: 8px; }
+    .hint { font-size: 12px; color: #555; margin-top: 4px; }
+    .kpi { background: #f8f8ff; border: 1px dashed #bdbdfc; padding: 8px 10px; border-radius: 8px; font-size: 12px; color: #333; }
+    .flex { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .divider { height: 1px; background: #eee; margin: 8px 0; }
+    .right { text-align: right; }
+    .error { color:#b00020; font-size:12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    @media print { header { position: static; } button { display: none; } body { background: #fff; } section { break-inside: avoid; } .mono { white-space: pre-wrap; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs><linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+    <stop offset="0" stop-color="#2b7bff"/><stop offset="1" stop-color="#00c2ff"/>
+  </linearGradient></defs>
+  <rect width="64" height="64" rx="12" fill="url(#g1)"/>
+  <path d="M32 12 v40 M12 32 h40" stroke="white" stroke-width="8" stroke-linecap="round"/>
+</svg>
+      <h1>Historia Clínica – Hernia Ventral Compleja (Ambulatorio)</h1>
+    </div>
+    <div class="actions">
+      <button id="btn-resumen">Ver resumen</button>
+      <button id="btn-copiar" class="secondary">Copiar resumen</button>
+      <button id="btn-copiar-soap" class="secondary">Copiar SOAP</button>
+      <button class="secondary" onclick="window.print()">Imprimir / PDF</button>
+      <button class="secondary" id="btn-limpiar">Limpiar</button>
+    </div>
+  </header>
+  <main>
+
+    <section>
+      <h2>1) Identificación y Motivo</h2>
+      <div class="row grid-compact">
+        <div class="col-4"><label>Nombre</label><input id="nombre" placeholder="Nombre y apellidos" /></div>
+        <div class="col-2"><label>Documento</label><input id="doc" placeholder="CC / ID" /></div>
+        <div class="col-2"><label>Edad</label><input id="edad" type="number" min="0" placeholder="años" /></div>
+        <div class="col-2"><label>Sexo</label><select id="sexo"><option value=""></option><option>F</option><option>M</option></select></div>
+        <div class="col-2"><label>Fecha</label><input id="fecha" type="date" /></div>
+        <div class="col-12"><label>Motivo de consulta</label><input id="motivo" placeholder="Dolor, aumento de volumen, recidiva…" /></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>2) Antecedentes clave (rápido)</h2>
+      <div class="row grid-compact">
+        <div class="col-2"><label>Peso (kg)</label><input id="peso" type="number" step="0.1" /></div>
+        <div class="col-2"><label>Talla (m)</label><input id="talla" type="number" step="0.01" /></div>
+        <div class="col-2"><label>IMC</label><input id="imc" type="text" placeholder="auto" readonly /></div>
+        <div class="col-3"><label>DM</label><select id="dm"><option></option><option>No</option><option>Tipo 2</option><option>Tipo 1</option></select></div>
+        <div class="col-3"><label>Tabaquismo</label><select id="tabaco"><option></option><option>No</option><option>Actual</option><option>Exfumador</option></select></div>
+        <div class="col-3"><label>Uso de anticoagulación</label><select id="ac"><option></option><option>No</option><option>Sí</option></select></div>
+        <div class="col-3"><label>Alergias</label><input id="alergias" placeholder="—" /></div>
+        <div class="col-3"><label>ASA</label><select id="asa"><option></option><option>I</option><option>II</option><option>III</option><option>IV</option></select></div>
+        <div class="col-3"><label>Cirugías previas de pared</label><select id="previas"><option></option><option>Ninguna</option><option>1</option><option>2+</option></select></div>
+        <div class="col-3"><label>Infección sitio Qx previa</label><select id="isq"><option></option><option>No</option><option>Sí</option></select></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>3) Estado funcional</h2>
+      <div class="row grid-compact">
+        <div class="col-3"><label>ECOG</label><select id="ecog"><option></option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+        <div class="col-3"><label>METs estimados</label><select id="mets"><option></option><option>&lt;4</option><option>4–7</option><option>&gt;7</option></select></div>
+        <div class="col-6"><label>Limitaciones relevantes</label><input id="limitaciones" placeholder="Disnea, dolor, marcha, ortopnea…" /></div>
+      </div>
+      <div class="hint">Sugerencia rápida: ≥4 METs suele ser adecuado para cirugía electiva.</div>
+      <div class="divider"></div>
+      <div class="row grid-compact">
+        <div class="col-6">
+          <label><strong>Guía rápida ECOG</strong></label>
+          <div class="flex" style="align-items:flex-start">
+            <label class="chip"><input type="radio" name="ecog_crit" value="0"> 0: Asintomático</label>
+            <label class="chip"><input type="radio" name="ecog_crit" value="1"> 1: Sintomático leve</label>
+            <label class="chip"><input type="radio" name="ecog_crit" value="2"> 2: &gt;50% del día en cama/silla</label>
+            <label class="chip"><input type="radio" name="ecog_crit" value="3"> 3: &gt;50% del día postrado</label>
+            <label class="chip"><input type="radio" name="ecog_crit" value="4"> 4: Totalmente postrado</label>
+          </div>
+        </div>
+        <div class="col-6">
+          <label><strong>Estimador de METs</strong></label>
+          <div class="flex" style="align-items:flex-start">
+            <span class="chip"><input type="checkbox" class="mets_low"> Autocuidado</span>
+            <span class="chip"><input type="checkbox" class="mets_low"> Tareas ligeras</span>
+            <span class="chip"><input type="checkbox" class="mets_mod"> 1 piso de escaleras</span>
+            <span class="chip"><input type="checkbox" class="mets_mod"> Caminar 6–7 km/h</span>
+            <span class="chip"><input type="checkbox" class="mets_high"> Trotar suave</span>
+            <span class="chip"><input type="checkbox" class="mets_high"> Deportes intensos</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>4) Hernia ventral – Clasificación EHS</h2>
+      <div class="row grid-compact">
+        <div class="col-4">
+          <label>Localización (EHS)</label>
+          <div class="hint">Puede seleccionar múltiples (Ctrl/Cmd + clic o toque prolongado).</div>
+          <select id="ehs_loc" multiple size="8">
+            <option>M1 Subxifoidea</option><option>M2 Epigástrica</option><option>M3 Umbilical</option>
+            <option>M4 Infraumbilical</option><option>M5 Suprapúbica</option>
+            <option>L1 Flanco superior</option><option>L2 Flanco lateral</option>
+            <option>L3 Flanco inferior</option><option>L4 Lumbar</option>
+          </select>
+        </div>
+        <div class="col-2"><label>Ancho defecto (cm)</label><input id="ancho" type="number" step="0.1" /></div>
+        <div class="col-2"><label>Alto defecto (cm)</label><input id="alto" type="number" step="0.1" /></div>
+        <div class="col-2"><label>Clase W (EHS)</label><input id="wclass" placeholder="W1/W2/W3" readonly /></div>
+        <div class="col-2"><label>Reducibilidad</label><select id="reducible"><option></option><option>Reducible</option><option>Irreducible</option></select></div>
+        <div class="col-3"><label>Tipo</label><select id="tipo"><option></option><option>Primaria</option><option>Incisional</option></select></div>
+        <div class="col-3"><label>N° recidivas</label><select id="recidivas"><option></option><option>0</option><option>1</option><option>2+</option></select></div>
+        <div class="col-3"><label>Estado piel/tejidos</label><select id="piel"><option></option><option>Íntegra</option><option>Fístula</option><option>Piel adelgazada</option><option>Úlcera</option></select></div>
+        <div class="col-3"><label>Contaminación (CDC)</label><select id="cdc"><option></option><option>I Limpia</option><option>II Limpia-contaminada</option><option>III Contaminada</option><option>IV Sucia</option></select></div>
+      </div>
+      <div class="kpi">EHS W: W1 &lt;4 cm | W2 4–10 cm | W3 &gt;10 cm</div>
+    </section>
+
+    <section>
+      <h2>5) Índices preoperatorios</h2>
+      <div class="row grid-compact">
+        <div class="col-3">
+          <label>CeDAR / CEDAR (valor)</label><input id="cedar" placeholder="%" />
+          <div class="hint">Ingrese el % de riesgo estimado si ya lo calculó.</div>
+        </div>
+        <div class="col-4">
+          <label>VHWG</label><select id="vhwg"><option></option><option>I</option><option>II</option><option>III</option><option>IV</option></select>
+          <div class="flex"><label class="chip"><input type="checkbox" id="vhwg_auto" checked> Calcular automáticamente</label></div>
+          <div id="vhwg_exp" class="kpi">Activa “Calcular automáticamente” para estimar el grado según comorbilidades y contaminación.</div>
+          <div class="hint">VHWG: I limpio sin comorbilidades; II comorbilidades en limpio; III potencialmente contaminada (CDC II–III) / ISQ previa; IV infectada/sucia o fístula/úlcera.</div>
+        </div>
+        <div class="col-5">
+          <label>Optimización preoperatoria</label>
+          <div class="flex">
+            <span class="chip"><input type="checkbox" id="opt_imc" /> IMC objetivo</span>
+            <span class="chip"><input type="checkbox" id="opt_tabaco" /> Cese tabaco ≥4 sem</span>
+            <span class="chip"><input type="checkbox" id="opt_dm" /> HbA1c &lt; 7.5%</span>
+            <span class="chip"><input type="checkbox" id="opt_alb" /> Albúmina &gt; 3.5 g/dL</span>
+            <span class="chip"><input type="checkbox" id="opt_botox" /> Toxina/Neumoperitoneo</span>
+            <span class="chip"><input type="checkbox" id="opt_abd" /> Fajón/FT</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>6) Estudios e imágenes</h2>
+      <div class="row grid-compact">
+        <div class="col-4"><label>Imágenes</label><select id="img"><option></option><option>TAC</option><option>Eco pared</option><option>RM</option></select></div>
+        <div class="col-8"><label>Hallazgos clave</label><input id="hallazgos" placeholder="Pérdida de dominio, diástasis, contenido, defectos múltiples…" /></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>7) Plan quirúrgico y perioperatorio</h2>
+      <div class="row grid-compact">
+        <div class="col-4"><label>Técnica propuesta</label>
+          <select id="tecnica"><option></option><option>Abierta</option><option>Laparoscópica</option><option>Robótica</option><option>Híbrida</option></select>
+        </div>
+        <div class="col-4"><label>Plano de reparación</label>
+          <select id="plano"><option></option><option>Sublay/retromuscular</option><option>Onlay</option><option>Underlay/Intraperitoneal</option><option>Preperitoneal</option></select>
+        </div>
+        <div class="col-4"><label>Malla prevista</label>
+          <select id="malla"><option></option><option>Sintética macroporosa</option><option>Reforzada/compuesta</option><option>Biológica</option></select>
+        </div>
+        <div class="col-12">
+          <label>Terapias de preparación de pared</label>
+          <div class="flex">
+            <span class="chip"><input type="checkbox" id="plan_btx" /> Requiere toxina botulínica preoperatoria</span>
+            <span class="chip"><input type="checkbox" id="plan_npp" /> Requiere neumoperitoneo progresivo preoperatorio</span>
+          </div>
+          <div class="hint">BTX: relajación parietal. NPP: ganancia de volumen abdominal.</div>
+        </div>
+        <div class="col-12"><label>Observaciones</label><textarea id="obs" placeholder="Liberación de componentes, TAR, drenajes, profilaxis, ERAS, etc."></textarea></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>8) Consentimiento y seguimiento</h2>
+      <div class="row grid-compact">
+        <div class="col-4"><label>Consentimiento informado</label><select id="consent"><option></option><option>Explicado y firmado</option><option>Pendiente</option></select></div>
+        <div class="col-4"><label>Profilaxis tromboembólica</label><select id="tromb"><option></option><option>Estratificado y ordenado</option><option>Pendiente</option></select></div>
+        <div class="col-4"><label>Antibiótico profiláctico</label><select id="abx"><option></option><option>Indicado</option><option>No indicado</option><option>Pendiente</option></select></div>
+        <div class="col-12"><label>Plan de control</label><input id="control" placeholder="Control 7–10 días / herida; 30 días; 90 días." /></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>9) Justificación de terapias de optimización de pared</h2>
+      <div class="muted">Se genera automáticamente si marcas BTX y/o NPP y presionas “Ver resumen”.</div>
+      <div id="justificacion" class="kpi">Sin terapias seleccionadas.</div>
+    </section>
+
+    <section>
+      <h2>10) Sugerencias automáticas</h2>
+      <div id="tev_sug" class="kpi">Sin sugerencias generadas. Use “Ver resumen”.</div>
+    </section>
+
+    <section>
+      <h2>Resumen generado</h2>
+      <div id="resumen" class="muted">Use “Ver resumen” o modifique campos para autogenerar un texto listo para copiar al EHR.</div>
+      <div id="err" class="error"></div>
+    </section>
+
+    <section>
+      <h2>Nota clínica (SOAP)</h2>
+      <div id="soap" class="mono kpi">Se generará automáticamente junto con el resumen.</div>
+    </section>
+
+    <div class="divider"></div>
+    <p class="muted right">Ventral v1.7.3 · Logo y favicon · EHS multiselección · VHWG auto · TEV · BTX/NPP · Resumen+SOAP</p>
+  </main>
+</body>
+</html>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const on = (el, ev, fn) => el && el.addEventListener(ev, fn);
+  const debounce = (fn, d=300) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), d);} };
+
+  function calcIMC(){const p=parseFloat($('peso')?.value||'NaN'),t=parseFloat($('talla')?.value||'NaN');$('imc').value=(!isNaN(p)&&!isNaN(t)&&p>0&&t>0)?(p/(t*t)).toFixed(1):'';}
+  function calcW(){const w=parseFloat($('ancho')?.value||'NaN');$('wclass').value=isNaN(w)?'':(w<4?'W1':(w<=10?'W2':'W3'));}
+  function recalcMETsFromChecks(){const any=cls=>Array.from(document.querySelectorAll(cls)).some(c=>c.checked);const m=$('mets');if(!m)return;if(any('.mets_high'))m.value='>7';else if(any('.mets_mod'))m.value='4–7';else if(any('.mets_low'))m.value='<4';else m.value='';}
+
+  function sugTEV(){
+    const factors=[]; const edad=parseInt($('edad')?.value||'0',10), imc=parseFloat($('imc')?.value||'NaN');
+    const ecog=$('ecog')?.value!==''?parseInt($('ecog').value,10):null;
+    const tecnica=$('tecnica')?.value||'', ac=$('ac')?.value||'', asa=$('asa')?.value||'';
+    if(!isNaN(edad)&&edad>=60)factors.push('edad ≥60');
+    if(!isNaN(imc)&&imc>=30)factors.push('IMC ≥30');
+    if(ecog!==null&&ecog>=2)factors.push(`ECOG ${ecog} (movilidad reducida)`);
+    if(tecnica==='Abierta')factors.push('cirugía abierta');
+    if(ac==='Sí')factors.push('anticoagulación crónica');
+    if(asa==='III'||asa==='IV')factors.push(`ASA ${asa}`);
+    let nivel='bajo';
+    if(factors.length>=3||(ecog!==null&&ecog>=2)||(!isNaN(imc)&&imc>=35))nivel='alto';
+    else if(factors.length===2)nivel='moderado';
+    else if(factors.length===1)nivel='leve';
+    let recomendacion='';
+    if(nivel==='bajo' || nivel==='leve') recomendacion='Deambulación temprana + medidas mecánicas según criterio.';
+    else if(nivel==='moderado') recomendacion='Profilaxis farmacológica estándar (p. ej., HBPM dosis profiláctica) + compresión mecánica.';
+    else recomendacion='Profilaxis combinada: HBPM dosis profiláctica (o ajuste según función renal) + compresión neumática intermitente; considerar prolongación 7–14 días.';
+    const txt=`Sugerencia TEV: Riesgo ${nivel}. Factores: ${factors.join(', ')||'sin factores mayores detectados'}. Recomendación: ${recomendacion}`;
+    const box=$('tev_sug'); if(box) box.textContent=txt; const sel=$('tromb'); if(sel) sel.value='Estratificado y ordenado'; return txt;
+  }
+
+  function calcVHWG(){
+    const auto=$('vhwg_auto'); if(auto && !auto.checked) return;
+    const cdc=($('cdc')?.value||'').toUpperCase(), isq=$('isq')?.value||'', piel=($('piel')?.value||'').toLowerCase();
+    const dm=$('dm')?.value||'', tab=$('tabaco')?.value||'', asa=$('asa')?.value||'', imc=parseFloat($('imc')?.value||'NaN');
+    let grado='I', motivos=[];
+    if(cdc.includes('IV')||piel.includes('fístula')||piel.includes('úlcera')){{grado='IV'; if(cdc.includes('IV'))motivos.push('CDC IV (sucia)'); if(piel.includes('fístula'))motivos.push('fístula'); if(piel.includes('úlcera'))motivos.push('úlcera en piel/tejidos');}}
+    else if(cdc.includes('II')||cdc.includes('III')||isq==='Sí'){{grado='III'; if(cdc.includes('II')||cdc.includes('III'))motivos.push(`CDC ${cdc}`.trim()); if(isq==='Sí')motivos.push('ISQ previa');}}
+    else{{const com=[]; if(!isNaN(imc)&&imc>=30)com.push('obesidad (IMC ≥30)'); if(dm&&dm!=='No')com.push(`DM (${dm})`); if(tab==='Actual')com.push('tabaquismo activo'); if(asa==='III'||asa==='IV')com.push(`ASA ${asa}`); if(com.length){{grado='II'; motivos=motivos.concat(com);}}}}
+    const sel=$('vhwg'); if(sel) sel.value=grado;
+    const exp=$('vhwg_exp'); if(exp){{let detalle=''; if(grado==='I')detalle='Bajo riesgo, campo limpio sin comorbilidades significativas.'; if(grado==='II')detalle='Riesgo aumentado por comorbilidades en campo limpio.'; if(grado==='III')detalle='Potencialmente contaminada (CDC II–III) o antecedente infeccioso.'; if(grado==='IV')detalle='Infectada/campo sucio o fístula/úlcera activa.'; exp.textContent=`VHWG ${grado}. ${detalle}` + (motivos.length?` Motivos: ${motivos.join(', ')}.`:'');}}
+    return grado;
+  }
+
+  function resumenTexto(){
+    const parts=[]; const nombre=$('nombre')?.value||'Paciente'; const edad=$('edad')?.value?`, ${$('edad').value} años`:''; const sexo=$('sexo')?.value?` (${$('sexo').value})`:''; const fecha=$('fecha')?.value?` – ${$('fecha').value}`:'';
+    parts.push(`Consulta ambulatoria de ${nombre}${edad}${sexo}${fecha}.`);
+    const motivo=$('motivo')?.value; if(motivo) parts.push(`Motivo: ${motivo}.`);
+    const imcTxt=$('imc')?.value?` IMC ${$('imc').value}`:''; const asa=$('asa')?.value?`, ASA ${$('asa').value}`:''; const dm=$('dm')?.value?`, DM: ${$('dm').value}`:''; const tab=$('tabaco')?.value?`, Tabaquismo: ${$('tabaco').value}`:''; const ac=$('ac')?.value?`, Anticoagulación: ${$('ac').value}`:''; const isq=$('isq')?.value?`, ISQ previa: ${$('isq').value}`:''; const prev=$('previas')?.value?`, Cirugías pared previas: ${$('previas').value}`:''; const al=$('alergias')?.value?`, Alergias: ${$('alergias').value}`:'';
+    if($('peso')?.value||$('talla')?.value||$('asa')?.value||$('dm')?.value||$('tabaco')?.value||$('ac')?.value||$('isq')?.value||$('previas')?.value||$('alergias')?.value){{parts.push(`Antecedentes clave:${imcTxt}${asa}${dm}${tab}${ac}${isq}${prev}${al}.`);}}
+    const ehsLocArr=Array.from(($('ehs_loc')||{{selectedOptions:[]}}).selectedOptions).map(o=>o.value); const an=$('ancho')?.value, al2=$('alto')?.value, wclass=$('wclass')?.value, tipo=$('tipo')?.value, recid=$('recidivas')?.value, red=$('reducible')?.value, piel=$('piel')?.value, cdc=$('cdc')?.value;
+    const ehs=[]; if(ehsLocArr.length) ehs.push(ehsLocArr.join(' / ')); if(an) ehs.push(`ancho ${an} cm`); if(al2) ehs.push(`alto ${al2} cm`); if(wclass) ehs.push(wclass); if(tipo) ehs.push(tipo); if(recid) ehs.push(`${recid} recidivas`); if(red) ehs.push(red.toLowerCase()); if(piel) ehs.push(`piel: ${piel.toLowerCase()}`); if(cdc) ehs.push(`CDC: ${cdc}`); if(ehs.length) parts.push(`Hernia ventral (EHS): ${ehs.join(', ')}.`);
+    const cedar=$('cedar')?.value; const idx=[]; if(cedar) idx.push(`CeDAR ${cedar}`);
+    const opt=[]; if($('opt_imc')?.checked) opt.push('IMC optimizado'); if($('opt_tabaco')?.checked) opt.push('cese tabaco'); if($('opt_dm')?.checked) opt.push('control glucémico'); if($('opt_alb')?.checked) opt.push('nutrición/albumina'); if($('opt_botox')?.checked) opt.push('BTX/NPP valorado'); if($('opt_abd')?.checked) opt.push('faja/FT');
+    if(idx.length||opt.length) parts.push(`Índices preoperatorios: ${idx.join(', ')}${opt.length?'; Optimización: '+opt.join(', '):''}.`);
+    const vhwgVal=$('vhwg')?.value; const vhwgExp=$('vhwg_exp')?.textContent||''; if(vhwgVal){{const cleanExp=vhwgExp.replace(/^VHWG\s*[IVX]+\.\s*/i,''); parts.push(`VHWG ${vhwgVal}${cleanExp?': '+cleanExp:''}.`);}}
+    const img=$('img')?.value, hall=$('hallazgos')?.value; if(img||hall) parts.push(`Estudios: ${img?img+'; ':''}${hall||''}.`);
+    const tec=$('tecnica')?.value, plano=$('plano')?.value, malla=$('malla')?.value, obs=$('obs')?.value; const btx=$('plan_btx')?.checked, npp=$('plan_npp')?.checked;
+    const plan=[]; if(tec) plan.push(tec); if(plano) plan.push(plano); if(malla) plan.push(`malla ${malla.toLowerCase()}`); if(btx) plan.push('BTX preoperatoria'); if(npp) plan.push('NPP preoperatorio'); if(plan.length||obs) parts.push(`Plan: ${plan.join(', ')}${obs?'. '+obs:''}.`);
+    const cons=$('consent')?.value, tromb=$('tromb')?.value, abx=$('abx')?.value, ctrl=$('control')?.value;
+    const peri=[]; if(cons) peri.push(`consentimiento ${cons.toLowerCase()}`); if(tromb) peri.push(`profilaxis TEV ${tromb.toLowerCase()}`); if(abx) peri.push(`ATB ${abx.toLowerCase()}`); if(ctrl) peri.push(`control: ${ctrl}`); if(peri.length) parts.push(`Perioperatorio: ${peri.join(', ')}.`);
+    const justParts=[]; if(btx||npp){{const imcVal=parseFloat($('imc')?.value), ecogVal=$('ecog')?.value?parseInt($('ecog').value,10):null, cdcVal=$('cdc')?.value, wClass=$('wclass')?.value, hallTxt=($('hallazgos')?.value||'').toLowerCase();
+      const ehsLocTxt=(ehsLocArr||[]).join(' / '), anchoVal=$('ancho')?.value, tipoHernia=$('tipo')?.value;
+      const perdidaDominio=/p[eé]rdida\s+de\s+dominio/.test(hallTxt), dias=/di[aá]stasis/.test(hallTxt), multiplDefectos=/m[uú]ltiples?|m[uú]ltiple/.test(hallTxt);
+      const factores=[]; if(wClass==='W2'||wClass==='W3') factores.push(`defecto ${wClass}${anchoVal?' (ancho '+anchoVal+' cm)':''}`);
+      if(perdidaDominio) factores.push('pérdida de dominio en imágenes'); if(!isNaN(imcVal)){{ if(imcVal>=35) factores.push('IMC ≥35 (alto riesgo tensional)'); else if(imcVal>=30) factores.push('IMC ≥30'); }}
+      if(ecogVal!==null&&ecogVal>=2) factores.push(`ECOG ${ecogVal}`); if(cdcVal&&/II|III|IV/.test(cdcVal)) factores.push(`campo ${cdcVal} (CDC)`); if(dias) factores.push('diástasis'); if(multiplDefectos) factores.push('defectos múltiples'); if(tipoHernia) factores.push(`hernia ${tipoHernia.toLowerCase()}`); if(ehsLocTxt) factores.push(`localización ${ehsLocTxt.toLowerCase()}`);
+      const criteriosCaso=factores.length?` Criterios del caso: ${factores.join(', ')}.`:''; if(btx) justParts.push('• Toxina botulínica preoperatoria: relajación de musculatura lateral, mayor complacencia abdominal y cierre sin tensión; posible reducción de dehiscencia/ISQ.');
+      if(npp) justParts.push('• Neumoperitoneo progresivo: expansión gradual de cavidad y adaptación diafragmática; mejora factibilidad de cierre y reduce complicaciones respiratorias.');
+      justParts.push('Medidas incluidas en protocolos modernos de optimización preoperatoria en hernias ventrales complejas.'+criteriosCaso);
+      const tevSug=sugTEV(); if(tevSug) justParts.push('Justificación riesgo TEV: '+tevSug);
+    }}
+    const jEl=$('justificacion'); if(jEl) jEl.textContent=justParts.join(' ')||'Sin terapias seleccionadas.';
+    return parts.join(' ');
+  }
+
+  function soapTexto(){
+    const motivo=$('motivo')?.value||'—', limit=$('limitaciones')?.value||'—';
+    const imc=$('imc')?.value||'—', ecog=$('ecog')?.value||'—', mets=$('mets')?.value||'—';
+    const ehsLoc=Array.from(($('ehs_loc')||{selectedOptions:[]}).selectedOptions).map(o=>o.value);
+    const wclass=$('wclass')?.value||'—', reduc=$('reducible')?.value||'—', piel=$('piel')?.value||'—', cdc=$('cdc')?.value||'—';
+    const img=$('img')?.value||'', hall=$('hallazgos')?.value||'';
+    const tipo=$('tipo')?.value||'', recid=$('recidivas')?.value||'', asa=$('asa')?.value||'', vhwg=$('vhwg')?.value||'';
+    const vhwgExp=($('vhwg_exp')?.textContent||'').replace(/^VHWG\s*[IVX]+\.\s*/i,'');
+    const tec=$('tecnica')?.value||'', plano=$('plano')?.value||'', malla=$('malla')?.value||'';
+    const btx=$('plan_btx')?.checked, npp=$('plan_npp')?.checked, abx=$('abx')?.value||'', tromb=$('tromb')?.value||'', ctrl=$('control')?.value||'', obs=$('obs')?.value||'';
+
+    const S=`Motivo principal: ${motivo}. Síntomas/funcionalidad: ${limit}.`;
+    const O=`IMC ${imc}${ecog?`, ECOG ${ecog}`:''}${mets?`, METs ${mets}`:''}. Hernia ventral (EHS): ${ehsLoc.length?ehsLoc.join(' / '):'—'}, ${wclass}, ${reduc.toLowerCase?reduc.toLowerCase():reduc}. Piel/tejidos: ${piel.toLowerCase?piel.toLowerCase():piel}. CDC: ${cdc}. ${img||hall?`Estudios: ${img?img+'; ':''}${hall}.`:''}`.trim();
+    const A=`Dx: hernia ventral${tipo? ' '+tipo.toLowerCase():''}${recid? ' con '+recid+' recidivas':''}. Clasificaciones: EHS ${wclass}${ehsLoc.length?' ('+ehsLoc.join(' / ')+')':''}${asa?'; ASA '+asa:''}${vhwg?'; VHWG '+vhwg:''}${vhwg&&vhwgExp?' ('+vhwgExp+')':''}${cdc?'; CDC '+cdc:''}.`.trim();
+    const P=`Técnica: ${tec||'por definir'}. Plano: ${plano||'por definir'}. Malla: ${malla||'por definir'}. ${(btx?'Se planifica toxina botulínica preoperatoria. ':'')+(npp?'Se planifica neumoperitoneo progresivo preoperatorio. ':'')}${obs?`Detalles: ${obs}. `:''}Profilaxis: ATB ${abx||'según protocolo'}; TEV ${tromb||'según estratificación'}. ${ctrl?`Controles: ${ctrl}.`:''}`.replace(/\s+/g,' ').trim();
+
+    return `S) ${S}
+O) ${O}
+A) ${A}
+P) ${P}`;
+  }
+
+  function generateSummary(){
+    try{
+      calcIMC(); calcW(); calcVHWG();
+      const txt=resumenTexto(); const r=$('resumen'); if(r) r.textContent=txt;
+      const soap=soapTexto(); const s=$('soap'); if(s) s.textContent=soap;
+    }catch(err){const e=$('err'); if(e) e.textContent='Error al generar el resumen: '+(err?.message||err);}
+  }
+
+  async function copySummary(){
+    const r=$('resumen'); if(!r) return; const txt=r.textContent||'';
+    try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(txt);} else {const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);} }
+    catch(err){const e=$('err'); if(e) e.textContent='No se pudo copiar automáticamente. Copia manualmente el texto del resumen.';}
+  }
+  async function copySOAP(){
+    const s=$('soap'); if(!s) return; const txt=s.textContent||'';
+    try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(txt);} else {const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);} }
+    catch(err){const e=$('err'); if(e) e.textContent='No se pudo copiar automáticamente la Nota SOAP. Copia manualmente el texto.';}
+  }
+
+  function wire(){
+    on($('btn-resumen'),'click',generateSummary);
+    on($('btn-copiar'),'click',copySummary);
+    on($('btn-copiar-soap'),'click',copySOAP);
+    on($('btn-limpiar'),'click',()=>{
+      document.querySelectorAll('input, select, textarea').forEach(el=>{
+        if(el.id==='imc'||el.id==='wclass'){el.value='';}
+        else if(el.type==='checkbox'||el.type==='radio'){el.checked=false;}
+        else{el.value='';}
+      });
+      const r=$('resumen'); if(r) r.textContent='Use “Ver resumen” o modifique campos para autogenerar un texto listo para copiar al EHR.';
+      const t=$('tev_sug'); if(t) t.textContent='Sin sugerencias generadas. Use “Ver resumen”.';
+      const j=$('justificacion'); if(j) j.textContent='Sin terapias seleccionadas.';
+      const s=$('soap'); if(s) s.textContent='Se generará automáticamente junto con el resumen.';
+      const e=$('err'); if(e) e.textContent='';
+    });
+
+    document.querySelectorAll('input[name="ecog_crit"]').forEach(r=>on(r,'change',(e)=>{const el=$('ecog'); if(el) el.value=e.target.value;}));
+    document.querySelectorAll('.mets_high, .mets_mod, .mets_low').forEach(c=>on(c,'change',recalcMETsFromChecks));
+    ['cdc','isq','piel','dm','tabaco','asa','imc','peso','talla'].forEach(id=>{const el=$(id); if(el){on(el,'change',calcVHWG); on(el,'input',calcVHWG);}});
+    const autoHandler=debounce(generateSummary,200); on(document,'input',autoHandler); on(document,'change',autoHandler);
+    calcVHWG(); generateSummary();
+  }
+  window.addEventListener('DOMContentLoaded', wire);
+</script>
